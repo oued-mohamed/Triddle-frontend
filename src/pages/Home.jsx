@@ -14,7 +14,7 @@ import {
   FaTwitter,
   FaLinkedin
 } from 'react-icons/fa';
-import { useAuthStore } from '../context/AuthStore';
+import { useAuthStore } from '../context/authStore';
 
 const LandingPage = () => {
   const { user } = useAuthStore();

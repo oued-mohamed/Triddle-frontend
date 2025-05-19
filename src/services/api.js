@@ -1,9 +1,15 @@
 // frontend/src/services/api.js
 import axios from 'axios';
 
-// Create axios instance with environment variable support
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Define base URL (without /api suffix)
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Define API URL (with /api suffix)
+const API_URL = `${BASE_URL}/api`;
 
+export const fetchData = async (endpoint) => {
+  const response = await fetch(`${API_URL}${endpoint}`);
+  return response.json();
+};
 
 const api = axios.create({
   baseURL: API_URL,
@@ -105,5 +111,22 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Helper function to check backend connectivity
+api.checkConnection = async () => {
+  try {
+    const response = await api.get('/health');
+    return {
+      connected: true,
+      status: response.status,
+      data: response.data
+    };
+  } catch (error) {
+    return {
+      connected: false,
+      error: error.message
+    };
+  }
+};
 
 export default api;

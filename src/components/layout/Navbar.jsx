@@ -3,7 +3,7 @@ import React from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaTachometerAlt, FaWpforms, FaSignOutAlt } from 'react-icons/fa';
-import { useAuthStore } from '../../context/AuthStore';
+import { useAuthStore } from '../../context/authStore';
 
 const MainNavbar = () => {
   const { user, logout } = useAuthStore();

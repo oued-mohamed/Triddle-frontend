@@ -16,7 +16,7 @@ import FormEdit from './pages/FormEdit.jsx';
 import FormView from './pages/FormView.jsx';
 import FormBuilder from './pages/FormBuilder.jsx'
 // import { Navbar } from 'react-bootstrap'
-import { useAuthStore } from './context/AuthStore.js';
+import { useAuthStore } from './context/authStore.js';
 import Navbar from './components/layout/Navbar';
 import MainLayout from './components/layout/MainLayout';
 // import FormResponses from './pages/FormResponses';

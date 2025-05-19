@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, InputGroup, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaFacebookF, FaGoogle, FaUser, FaEnvelope, FaLock, FaCheck } from 'react-icons/fa';
-import { useAuthStore } from '../context/AuthStore';
+import { useAuthStore } from '../context/authStore';
 
 const Register = () => {
   const [formData, setFormData] = useState({
