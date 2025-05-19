@@ -1,0 +1,105 @@
+// frontend/src/styles/components/_sidebar.scss
+
+.sidebar-wrapper {
+  width: $sidebar-width;
+  height: calc(100vh - $navbar-height);
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  z-index: 1020;
+  transition: width 0.3s ease;
+  background-color: $sidebar-bg;
+  border-right: 1px solid $sidebar-border-color;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+  }
+}
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid $sidebar-border-color;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    h5 {
+      margin-bottom: 0;
+      font-weight: 600;
+      color: $gray-700;
+    }
+    
+    .sidebar-toggle {
+      background: transparent;
+      border: none;
+      color: $gray-600;
+      padding: 0.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+      
+      &:hover, &:focus {
+        color: $primary;
+      }
+    }
+  }
+  
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1.5rem;
+    color: $sidebar-link-color;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 0;
+    border-left: 4px solid transparent;
+    
+    &:hover, &:focus {
+      color: $sidebar-link-hover-color;
+      background-color: rgba($primary, 0.05);
+    }
+    
+    &.active {
+      color: $sidebar-link-active-color;
+      background-color: $sidebar-link-active-bg;
+      border-left-color: $primary;
+    }
+    
+    .sidebar-icon {
+      font-size: 1.25rem;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+    }
+    
+    .sidebar-text {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+  
+  .sidebar-footer {
+    margin-top: auto;
+    border-top: 1px solid $sidebar-border-color;
+    padding: 1rem;
+  }
+}
+
+.main-content {
+  margin-left: $sidebar-width;
+  padding-top: 1rem;
+  min-height: calc(100vh - $navbar-height);
+  transition: margin-left 0.3s ease;
+  
+  &.expanded {
+    margin-left: $sidebar-collapsed-width;
+  }
+}

@@ -1,0 +1,175 @@
+// frontend/src/styles/components/_forms.scss
+
+.custom-form-group {
+  margin-bottom: 1.5rem;
+  
+  .custom-label {
+    font-weight: $font-weight-medium;
+    margin-bottom: 0.5rem;
+    color: $gray-700;
+  }
+  
+  .custom-input {
+    border-radius: $input-border-radius;
+    border: 1px solid $gray-300;
+    padding: 0.625rem 0.875rem;
+    font-size: 1rem;
+    transition: $transition-base;
+    
+    &:focus {
+      border-color: $input-focus-border-color;
+      box-shadow: $input-focus-box-shadow;
+    }
+    
+    &.is-invalid {
+      border-color: $danger;
+      background-image: none;
+      padding-right: 0.875rem;
+      
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba($danger, 0.25);
+      }
+    }
+  }
+  
+  .custom-select {
+    border-radius: $input-border-radius;
+    border: 1px solid $gray-300;
+    padding: 0.625rem 2.25rem 0.625rem 0.875rem;
+    font-size: 1rem;
+    transition: $transition-base;
+    background-size: 16px 12px;
+    
+    &:focus {
+      border-color: $input-focus-border-color;
+      box-shadow: $input-focus-box-shadow;
+    }
+  }
+  
+  .form-text {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  .invalid-feedback {
+    font-size: 0.875rem;
+    color: $danger;
+    margin-top: 0.5rem;
+  }
+}
+
+// Checkbox and Radio styles
+.form-check {
+  .form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.125rem;
+    
+    &:checked {
+      background-color: $primary;
+      border-color: $primary;
+    }
+    
+    &:focus {
+      border-color: $input-focus-border-color;
+      box-shadow: $input-focus-box-shadow;
+    }
+  }
+  
+  .form-check-label {
+    padding-left: 0.5rem;
+    cursor: pointer;
+  }
+}
+
+// Dropzone for file uploads
+.dropzone-area {
+  border: 2px dashed $gray-400;
+  border-radius: $input-border-radius;
+  background-color: $gray-100;
+  cursor: pointer;
+  transition: $transition-base;
+  
+  &:hover {
+    border-color: $primary;
+    background-color: rgba($primary, 0.05);
+  }
+  
+  &.is-invalid {
+    border-color: $danger;
+  }
+}
+
+// File preview
+.file-preview {
+  background-color: $gray-100;
+  border-radius: $input-border-radius;
+}
+
+// Form in card
+.card-form {
+  .card-body {
+    padding: 2rem;
+  }
+}
+
+// Form in builder
+.form-builder {
+  .question-editor {
+    background-color: $white;
+    border-radius: $card-border-radius;
+    margin-bottom: 1.5rem;
+  }
+  
+  .options-container {
+    padding: 1rem;
+    background-color: $gray-100;
+    border-radius: $input-border-radius;
+  }
+  
+  .validation-container {
+    padding: 1rem;
+    background-color: $gray-100;
+    border-radius: $input-border-radius;
+  }
+}
+
+// Form filling experience
+.form-fill-content {
+  .form-fill-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: $white;
+    padding: 2rem;
+    border-radius: $card-border-radius;
+    box-shadow: $card-box-shadow;
+  }
+  
+  .form-input {
+    font-size: 1.125rem;
+    padding: 0.75rem 1rem;
+    border-radius: $input-border-radius;
+    
+    &:focus {
+      border-color: $input-focus-border-color;
+      box-shadow: $input-focus-box-shadow;
+    }
+  }
+  
+  .submit-button {
+    border-radius: 50px;
+    padding: 0.75rem 2rem;
+    font-size: 1.125rem;
+    font-weight: $font-weight-medium;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($primary, 0.4);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}

@@ -1,0 +1,179 @@
+// frontend/src/styles/components/_cards.scss
+
+.custom-card {
+  border-radius: $card-border-radius;
+  box-shadow: $card-box-shadow;
+  transition: $transition-base;
+  border: none;
+  overflow: hidden;
+  
+  .card-header {
+    background-color: $white;
+    border-bottom: 1px solid $gray-200;
+    padding: 1.25rem 1.5rem;
+    
+    .card-title {
+      margin-bottom: 0;
+      font-weight: $font-weight-medium;
+      font-size: 1.125rem;
+    }
+    
+    .card-subtitle {
+      margin-top: 0.5rem;
+      color: $gray-600;
+      font-size: 0.875rem;
+    }
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .card-footer {
+    background-color: $white;
+    border-top: 1px solid $gray-200;
+    padding: 1.25rem 1.5rem;
+  }
+  
+  &.dashboard-card {
+    margin-bottom: 1.5rem;
+    height: 100%;
+    
+    .card-body {
+      position: relative;
+      
+      .stat-icon {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba($primary, 0.1);
+        color: $primary;
+      }
+      
+      .stat-value {
+        font-size: 2rem;
+        font-weight: $font-weight-bold;
+        margin-bottom: 0.5rem;
+      }
+      
+      .stat-label {
+        color: $gray-600;
+        font-size: 1rem;
+      }
+    }
+  }
+  
+  &.hoverable {
+    cursor: pointer;
+    
+    &:hover {
+      box-shadow: $card-hover-box-shadow;
+      transform: translateY(-4px);
+    }
+  }
+  
+  // Card with primary background
+  &.bg-primary {
+    background: linear-gradient(145deg, $primary, darken($primary, 15%));
+    color: $white;
+    
+    .card-title,
+    .card-subtitle,
+    .stat-label {
+      color: rgba($white, 0.9);
+    }
+    
+    .stat-value {
+      color: $white;
+    }
+    
+    .stat-icon {
+      background-color: rgba($white, 0.2);
+      color: $white;
+    }
+  }
+  
+  // Card with success background
+  &.bg-success {
+    background: linear-gradient(145deg, $success, darken($success, 15%));
+    color: $white;
+    
+    .card-title,
+    .card-subtitle,
+    .stat-label {
+      color: rgba($white, 0.9);
+    }
+    
+    .stat-value {
+      color: $white;
+    }
+    
+    .stat-icon {
+      background-color: rgba($white, 0.2);
+      color: $white;
+    }
+  }
+  
+  // Card with info background
+  &.bg-info {
+    background: linear-gradient(145deg, $info, darken($info, 15%));
+    color: $white;
+    
+    .card-title,
+    .card-subtitle,
+    .stat-label {
+      color: rgba($white, 0.9);
+    }
+    
+    .stat-value {
+      color: $white;
+    }
+    
+    .stat-icon {
+      background-color: rgba($white, 0.2);
+      color: $white;
+    }
+  }
+  
+  // Form card for preview
+  &.form-card {
+    margin-bottom: 1.5rem;
+    
+    .card-body {
+      .form-title {
+        font-size: 1.25rem;
+        font-weight: $font-weight-medium;
+        margin-bottom: 0.5rem;
+      }
+      
+      .form-description {
+        color: $gray-600;
+        margin-bottom: 1rem;
+      }
+      
+      .form-meta {
+        display: flex;
+        margin-top: 1rem;
+        
+        .meta-item {
+          display: flex;
+          align-items: center;
+          margin-right: 1.5rem;
+          font-size: 0.875rem;
+          color: $gray-600;
+          
+          .meta-icon {
+            margin-right: 0.5rem;
+            color: $primary;
+          }
+        }
+      }
+    }
+  }
+}

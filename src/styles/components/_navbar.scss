@@ -1,0 +1,81 @@
+// frontend/src/styles/components/_navbar.scss
+
+.navbar {
+  background: white;
+  border-bottom: 1px solid $gray-200;
+  padding: 0.75rem 0;
+  z-index: 1030;
+  
+  .navbar-brand {
+    font-weight: 700;
+    color: $primary;
+    
+    &:hover {
+      color: darken($primary, 10%);
+    }
+  }
+  
+  .nav-link {
+    color: $gray-700;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+    
+    &:hover, &:focus {
+      color: $primary;
+    }
+    
+    &.active {
+      color: $primary;
+    }
+  }
+  
+  .dropdown-toggle::after {
+    display: none;
+  }
+  
+  .dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    
+    .dropdown-item {
+      padding: 0.5rem 1.5rem;
+      
+      &:hover, &:focus {
+        background-color: rgba($primary, 0.1);
+        color: $primary;
+      }
+      
+      &.active {
+        background-color: $primary;
+        color: white;
+      }
+    }
+  }
+  
+  .user-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: rgba($primary, 0.1);
+    }
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: $primary;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+  }
+}

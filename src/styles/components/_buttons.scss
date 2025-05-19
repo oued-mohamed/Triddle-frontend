@@ -1,0 +1,86 @@
+// frontend/src/styles/components/_buttons.scss
+
+.custom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $font-weight-medium;
+  border-radius: $btn-border-radius;
+  transition: $btn-transition;
+  padding: 0.5rem 1.25rem;
+  
+  &:focus {
+    box-shadow: none;
+  }
+  
+  .button-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  &.btn-primary {
+    background: linear-gradient(145deg, $primary, darken($primary, 10%));
+    border: none;
+    
+    &:hover, &:active {
+      background: linear-gradient(145deg, darken($primary, 5%), darken($primary, 15%));
+      transform: translateY(-1px);
+    }
+  }
+  
+  &.btn-outline-primary {
+    border-color: $primary;
+    color: $primary;
+    
+    &:hover, &:active {
+      background-color: rgba($primary, 0.1);
+      color: darken($primary, 10%);
+    }
+  }
+  
+  &.btn-success {
+    background: linear-gradient(145deg, $success, darken($success, 10%));
+    border: none;
+    
+    &:hover, &:active {
+      background: linear-gradient(145deg, darken($success, 5%), darken($success, 15%));
+    }
+  }
+  
+  &.btn-danger {
+    background: linear-gradient(145deg, $danger, darken($danger, 10%));
+    border: none;
+    
+    &:hover, &:active {
+      background: linear-gradient(145deg, darken($danger, 5%), darken($danger, 15%));
+    }
+  }
+  
+  &.btn-lg {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  &.btn-sm {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+  }
+  
+  // Icon button
+  &.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    
+    &.btn-sm {
+      width: 32px;
+      height: 32px;
+    }
+    
+    &.btn-lg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
