@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../context/authStore';
+import { useAuthStore } from '../../context/AuthStore';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Footer from './Footer';
