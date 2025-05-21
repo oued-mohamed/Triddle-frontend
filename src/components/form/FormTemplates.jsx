@@ -1,5 +1,5 @@
 // src/components/form/FormTemplates.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, Modal, Badge } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { 
@@ -179,223 +179,6 @@ const TEMPLATES = [
     ]
   },
   {
-    id: 'product-order',
-    title: 'Product Order Form',
-    description: 'Allow customers to place orders for your products.',
-    icon: <FaShoppingCart className="mb-3" size={32} />,
-    color: '#ef4444',
-    features: ['Progress Bar', 'Completion Milestones'],
-    fields: [
-      {
-        id: 'field-name',
-        type: 'text',
-        label: 'Full Name',
-        helpText: '',
-        required: true,
-        order: 0,
-        options: []
-      },
-      {
-        id: 'field-email',
-        type: 'text',
-        label: 'Email Address',
-        helpText: '',
-        required: true,
-        order: 1,
-        options: []
-      },
-      {
-        id: 'field-address',
-        type: 'paragraph',
-        label: 'Delivery Address',
-        helpText: 'Include street, city, state, zip code',
-        required: true,
-        order: 2,
-        options: []
-      },
-      {
-        id: 'field-product',
-        type: 'dropdown',
-        label: 'Select Product',
-        helpText: '',
-        required: true,
-        order: 3,
-        options: [
-          { value: 'Product A', label: 'Product A - $29.99' },
-          { value: 'Product B', label: 'Product B - $39.99' },
-          { value: 'Product C', label: 'Product C - $49.99' },
-          { value: 'Product D', label: 'Product D - $59.99' }
-        ]
-      },
-      {
-        id: 'field-quantity',
-        type: 'text',
-        label: 'Quantity',
-        helpText: 'How many units do you want to order?',
-        required: true,
-        order: 4,
-        options: []
-      }
-    ]
-  },
-  {
-    id: 'job-application',
-    title: 'Job Application',
-    description: 'Accept applications for open positions.',
-    icon: <FaFileAlt className="mb-3" size={32} />,
-    color: '#8b5cf6',
-    featured: true,
-    features: ['Progress Bar', 'Completion Milestones', 'Background Animations', 'Shareable Results'],
-    fields: [
-      {
-        id: 'field-name',
-        type: 'text',
-        label: 'Full Name',
-        helpText: '',
-        required: true,
-        order: 0,
-        options: []
-      },
-      {
-        id: 'field-email',
-        type: 'text',
-        label: 'Email Address',
-        helpText: '',
-        required: true,
-        order: 1,
-        options: []
-      },
-      {
-        id: 'field-phone',
-        type: 'text',
-        label: 'Phone Number',
-        helpText: '',
-        required: true,
-        order: 2,
-        options: []
-      },
-      {
-        id: 'field-position',
-        type: 'dropdown',
-        label: 'Position Applied For',
-        helpText: '',
-        required: true,
-        order: 3,
-        options: [
-          { value: 'Developer', label: 'Software Developer' },
-          { value: 'Designer', label: 'UI/UX Designer' },
-          { value: 'Marketing', label: 'Marketing Specialist' },
-          { value: 'Sales', label: 'Sales Representative' }
-        ]
-      },
-      {
-        id: 'field-experience',
-        type: 'paragraph',
-        label: 'Relevant Experience',
-        helpText: 'Please describe your relevant work experience',
-        required: true,
-        order: 4,
-        options: []
-      },
-      {
-        id: 'field-start-date',
-        type: 'text',
-        label: 'Available Start Date',
-        helpText: '',
-        required: true,
-        order: 5,
-        options: []
-      }
-    ]
-  },
-  {
-    id: 'course-evaluation',
-    title: 'Course Evaluation',
-    description: 'Collect feedback about courses or workshops.',
-    icon: <FaGraduationCap className="mb-3" size={32} />,
-    color: '#06b6d4',
-    features: ['Progress Bar', 'Background Animations'],
-    fields: [
-      {
-        id: 'field-course',
-        type: 'dropdown',
-        label: 'Course Name',
-        helpText: '',
-        required: true,
-        order: 0,
-        options: [
-          { value: 'Course A', label: 'Introduction to Programming' },
-          { value: 'Course B', label: 'Web Development Basics' },
-          { value: 'Course C', label: 'Advanced Data Structures' },
-          { value: 'Course D', label: 'UI/UX Design Principles' }
-        ]
-      },
-      {
-        id: 'field-instructor',
-        type: 'text',
-        label: 'Instructor Name',
-        helpText: '',
-        required: true,
-        order: 1,
-        options: []
-      },
-      {
-        id: 'field-content-rating',
-        type: 'multipleChoice',
-        label: 'How would you rate the course content?',
-        helpText: '',
-        required: true,
-        order: 2,
-        options: [
-          { value: '5', label: 'Excellent' },
-          { value: '4', label: 'Good' },
-          { value: '3', label: 'Average' },
-          { value: '2', label: 'Below Average' },
-          { value: '1', label: 'Poor' }
-        ]
-      },
-      {
-        id: 'field-instructor-rating',
-        type: 'multipleChoice',
-        label: 'How would you rate the instructor?',
-        helpText: '',
-        required: true,
-        order: 3,
-        options: [
-          { value: '5', label: 'Excellent' },
-          { value: '4', label: 'Good' },
-          { value: '3', label: 'Average' },
-          { value: '2', label: 'Below Average' },
-          { value: '1', label: 'Poor' }
-        ]
-      },
-      {
-        id: 'field-mood',
-        type: 'radio',
-        label: 'How do you feel after completing this course?',
-        helpText: '',
-        required: true,
-        order: 4,
-        options: [
-          { value: 'Confident 😊', label: 'Confident 😊' },
-          { value: 'Satisfied 🙂', label: 'Satisfied 🙂' },
-          { value: 'Neutral 😐', label: 'Neutral 😐' },
-          { value: 'Confused 😕', label: 'Confused 😕' },
-          { value: 'Overwhelmed 😔', label: 'Overwhelmed 😔' }
-        ]
-      },
-      {
-        id: 'field-feedback',
-        type: 'paragraph',
-        label: 'Additional Comments',
-        helpText: 'Please provide any additional feedback about the course',
-        required: false,
-        order: 5,
-        options: []
-      }
-    ]
-  },
-  {
     id: 'survey',
     title: 'General Survey',
     description: 'A versatile survey template with various question types.',
@@ -432,69 +215,22 @@ const TEMPLATES = [
           { value: 'Non-binary', label: 'Non-binary' },
           { value: 'Prefer not to say', label: 'Prefer not to say' }
         ]
-      },
-      {
-        id: 'field-interests',
-        type: 'checkboxes',
-        label: 'What are your interests?',
-        helpText: 'Select all that apply',
-        required: true,
-        order: 2,
-        options: [
-          { value: 'Technology', label: 'Technology' },
-          { value: 'Sports', label: 'Sports' },
-          { value: 'Reading', label: 'Reading' },
-          { value: 'Travel', label: 'Travel' },
-          { value: 'Arts', label: 'Arts' },
-          { value: 'Other', label: 'Other' }
-        ]
-      },
-      {
-        id: 'field-how-often',
-        type: 'multipleChoice',
-        label: 'How often do you use our product?',
-        helpText: '',
-        required: true,
-        order: 3,
-        options: [
-          { value: 'Daily', label: 'Daily' },
-          { value: 'Weekly', label: 'Weekly' },
-          { value: 'Monthly', label: 'Monthly' },
-          { value: 'Rarely', label: 'Rarely' },
-          { value: 'Never', label: 'Never' }
-        ]
-      },
-      {
-        id: 'field-mood',
-        type: 'radio',
-        label: 'How do you feel about filling out this survey?',
-        helpText: '',
-        required: true,
-        order: 4,
-        options: [
-          { value: 'Happy 😊', label: 'Happy 😊' },
-          { value: 'Neutral 😐', label: 'Neutral 😐' },
-          { value: 'Bored 😴', label: 'Bored 😴' },
-          { value: 'Annoyed 😒', label: 'Annoyed 😒' }
-        ]
-      },
-      {
-        id: 'field-feedback',
-        type: 'paragraph',
-        label: 'Any other feedback?',
-        helpText: 'We value your opinion',
-        required: false,
-        order: 5,
-        options: []
       }
     ]
   }
 ];
 
-const FormTemplates = ({ onSelectTemplate }) => {
+const FormTemplates = ({ filter, onSelectTemplate }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const [filter, setFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('all');
+
+  // Update filter when prop changes
+  useEffect(() => {
+    if (filter) {
+      setActiveFilter(filter);
+    }
+  }, [filter]);
 
   const handleTemplateClick = (template) => {
     setSelectedTemplate(template);
@@ -509,11 +245,11 @@ const FormTemplates = ({ onSelectTemplate }) => {
   };
 
   // Filter templates based on selected filter
-  const filteredTemplates = filter === 'all' 
+  const filteredTemplates = activeFilter === 'all' 
     ? TEMPLATES 
-    : filter === 'featured' 
+    : activeFilter === 'featured' 
       ? TEMPLATES.filter(template => template.featured) 
-      : TEMPLATES.filter(template => template.features.includes(filter));
+      : TEMPLATES.filter(template => template.features && template.features.includes(activeFilter));
 
   // Template card animation variants
   const cardVariants = {
@@ -529,44 +265,106 @@ const FormTemplates = ({ onSelectTemplate }) => {
     })
   };
 
+  // Custom styles as inline styles
+  const customStyles = {
+    templateHeader: {
+      marginBottom: '20px'
+    },
+    filterButtons: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '10px'
+    },
+    filterBtn: {
+      borderRadius: '20px',
+      fontSize: '0.9rem'
+    },
+    templateCard: {
+      borderRadius: '12px',
+      transition: 'all 0.3s ease',
+      overflow: 'hidden',
+      cursor: 'pointer'
+    },
+    templateIconContainer: {
+      transition: 'all 0.3s ease',
+      width: '70px',
+      height: '70px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    featureBadge: {
+      fontWeight: 'normal',
+      fontSize: '0.7rem',
+      backgroundColor: 'rgba(74, 108, 247, 0.1)',
+      color: '#4a6cf7'
+    },
+    useTemplateBtn: {
+      borderRadius: '20px',
+      fontWeight: '500',
+      transition: 'all 0.3s ease',
+      width: '100%'
+    },
+    featureList: {
+      paddingLeft: '0',
+      listStyleType: 'none'
+    },
+    featureItem: {
+      padding: '4px 0'
+    },
+    featureIcon: {
+      display: 'inline-block',
+      width: '20px',
+      height: '20px',
+      textAlign: 'center',
+      lineHeight: '20px',
+      backgroundColor: '#eaf3ff',
+      color: '#4a6cf7',
+      borderRadius: '50%',
+      marginRight: '8px',
+      fontWeight: 'bold',
+      fontSize: '0.8rem'
+    }
+  };
+
   return (
-    <>
-      <div className="templates-header">
+    <div>
+      <div style={customStyles.templateHeader}>
         <h4 className="mb-3">Choose a template to get started</h4>
         
-        <div className="filter-buttons mb-4">
+        <div style={customStyles.filterButtons} className="mb-4">
           <Button 
-            variant={filter === 'all' ? 'primary' : 'outline-primary'} 
-            className="filter-btn"
-            onClick={() => setFilter('all')}
+            variant={activeFilter === 'all' ? 'primary' : 'outline-primary'} 
+            style={customStyles.filterBtn}
+            onClick={() => setActiveFilter('all')}
           >
             All Templates
           </Button>
           <Button 
-            variant={filter === 'featured' ? 'primary' : 'outline-primary'} 
-            className="filter-btn"
-            onClick={() => setFilter('featured')}
+            variant={activeFilter === 'featured' ? 'primary' : 'outline-primary'} 
+            style={customStyles.filterBtn}
+            onClick={() => setActiveFilter('featured')}
           >
             Featured
           </Button>
           <Button 
-            variant={filter === 'Progress Bar' ? 'primary' : 'outline-primary'} 
-            className="filter-btn"
-            onClick={() => setFilter('Progress Bar')}
+            variant={activeFilter === 'Progress Bar' ? 'primary' : 'outline-primary'} 
+            style={customStyles.filterBtn}
+            onClick={() => setActiveFilter('Progress Bar')}
           >
             <FaChartBar className="me-1" /> Progress Bar
           </Button>
           <Button 
-            variant={filter === 'Completion Milestones' ? 'primary' : 'outline-primary'} 
-            className="filter-btn"
-            onClick={() => setFilter('Completion Milestones')}
+            variant={activeFilter === 'Completion Milestones' ? 'primary' : 'outline-primary'} 
+            style={customStyles.filterBtn}
+            onClick={() => setActiveFilter('Completion Milestones')}
           >
             <FaTrophy className="me-1" /> Milestones
           </Button>
           <Button 
-            variant={filter === 'Shareable Results' ? 'primary' : 'outline-primary'} 
-            className="filter-btn"
-            onClick={() => setFilter('Shareable Results')}
+            variant={activeFilter === 'Shareable Results' ? 'primary' : 'outline-primary'} 
+            style={customStyles.filterBtn}
+            onClick={() => setActiveFilter('Shareable Results')}
           >
             <FaShareAlt className="me-1" /> Shareable Results
           </Button>
@@ -583,8 +381,8 @@ const FormTemplates = ({ onSelectTemplate }) => {
               variants={cardVariants}
             >
               <Card 
-                className="h-100 border-0 shadow-sm template-card" 
-                style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
+                className="h-100 border-0 shadow-sm" 
+                style={customStyles.templateCard}
                 onClick={() => handleTemplateClick(template)}
               >
                 {template.featured && (
@@ -597,10 +395,9 @@ const FormTemplates = ({ onSelectTemplate }) => {
                 
                 <Card.Body className="d-flex flex-column align-items-center text-center p-4">
                   <div 
-                    className="template-icon-container rounded-circle d-flex align-items-center justify-content-center mb-3"
-                    style={{ 
-                      width: '70px', 
-                      height: '70px', 
+                    className="rounded-circle mb-3"
+                    style={{
+                      ...customStyles.templateIconContainer,
                       backgroundColor: `${template.color}20`,
                       color: template.color
                     }}
@@ -613,14 +410,15 @@ const FormTemplates = ({ onSelectTemplate }) => {
                   </Card.Text>
                   
                   {/* Features badges */}
-                  <div className="template-features mb-3">
+                  <div className="mb-3">
                     {template.features?.map((feature, idx) => (
                       <Badge 
                         key={idx} 
                         pill 
                         bg="light" 
                         text="dark" 
-                        className="me-1 mb-1 feature-badge"
+                        className="me-1 mb-1"
+                        style={customStyles.featureBadge}
                       >
                         {feature}
                       </Badge>
@@ -629,12 +427,19 @@ const FormTemplates = ({ onSelectTemplate }) => {
                   
                   <div className="mt-auto pt-3">
                     <Button 
-                      variant="outline-primary" 
-                      className="w-100 use-template-btn"
-                      style={{ 
+                      variant="outline-primary"
+                      style={{
+                        ...customStyles.useTemplateBtn,
                         borderColor: template.color,
-                        color: template.color,
-                        '--template-color': template.color
+                        color: template.color
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = template.color;
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.color = template.color;
                       }}
                     >
                       Use Template
@@ -664,7 +469,7 @@ const FormTemplates = ({ onSelectTemplate }) => {
             <>
               <div className="d-flex align-items-center mb-3">
                 <div 
-                  className="template-icon-container rounded-circle d-flex align-items-center justify-content-center me-3"
+                  className="rounded-circle d-flex align-items-center justify-content-center me-3"
                   style={{ 
                     width: '50px', 
                     height: '50px', 
@@ -680,12 +485,12 @@ const FormTemplates = ({ onSelectTemplate }) => {
                 </div>
               </div>
               
-              <div className="template-details mb-3">
+              <div className="mb-3">
                 <p className="mb-2">This template includes:</p>
-                <ul className="feature-list">
+                <ul style={customStyles.featureList}>
                   {selectedTemplate.features.map((feature, idx) => (
-                    <li key={idx} className="feature-item">
-                      <span className="feature-icon">✓</span> {feature}
+                    <li key={idx} style={customStyles.featureItem}>
+                      <span style={customStyles.featureIcon}>✓</span> {feature}
                     </li>
                   ))}
                 </ul>
@@ -711,95 +516,7 @@ const FormTemplates = ({ onSelectTemplate }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      <style jsx>{`
-        .templates-header {
-          margin-bottom: 20px;
-        }
-        
-        .filter-buttons {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-        }
-        
-        .filter-btn {
-          border-radius: 20px;
-          font-size: 0.9rem;
-        }
-        
-        .template-card {
-          border-radius: 12px;
-          transition: all 0.3s ease !important;
-          overflow: hidden;
-        }
-        
-        .template-card:hover {
-          transform: translateY(-5px) !important;
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
-        }
-        
-        .template-icon-container {
-          transition: all 0.3s ease;
-        }
-        
-        .template-card:hover .template-icon-container {
-          transform: scale(1.1);
-        }
-        
-        .feature-badge {
-          font-weight: normal;
-          font-size: 0.7rem;
-          background-color: rgba(74, 108, 247, 0.1);
-          color: #4a6cf7;
-        }
-        
-        .use-template-btn {
-          border-radius: 20px;
-          font-weight: 500;
-          transition: all 0.3s ease;
-        }
-        
-        .use-template-btn:hover {
-          color: white !important;
-          background-color: var(--template-color);
-        }
-        
-        .feature-list {
-          padding-left: 0;
-          list-style-type: none;
-        }
-        
-        .feature-item {
-          padding: 4px 0;
-        }
-        
-        .feature-icon {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          text-align: center;
-          line-height: 20px;
-          background-color: #eaf3ff;
-          color: #4a6cf7;
-          border-radius: 50%;
-          margin-right: 8px;
-          font-weight: bold;
-          font-size: 0.8rem;
-        }
-        
-        @media (max-width: 768px) {
-          .filter-buttons {
-            justify-content: center;
-          }
-          
-          .filter-btn {
-            font-size: 0.8rem;
-            padding: 0.375rem 0.75rem;
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
 };
 

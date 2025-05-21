@@ -40,6 +40,19 @@ const Dashboard = () => {
     navigate('/forms/builder/new');
   };
 
+  // Stub function to get response count without making failed API calls
+  const getResponseCount = async (formId) => {
+    try {
+      // Return 0 as default instead of trying to call the non-existent endpoint
+      // When the backend endpoint is implemented later, update this function
+      // to make the actual API call
+      return 0;
+    } catch (err) {
+      console.log(`Could not fetch response count for form ${formId}:`, err);
+      return 0;
+    }
+  };
+
   // Function to fetch response counts for forms
   const fetchResponseCounts = useCallback(async (formIds) => {
     if (!formIds || formIds.length === 0) return {};
@@ -51,20 +64,8 @@ const Dashboard = () => {
       // Fetch response counts for each form
       await Promise.all(formIds.map(async (formId) => {
         try {
-          // Try to fetch responses for this form
-          const response = await api.get(`/forms/${formId}/responses/count`);
-          
-          // Extract count from response based on your API structure
-          let count = 0;
-          if (response.data?.count !== undefined) {
-            count = response.data.count;
-          } else if (response.data?.data?.count !== undefined) {
-            count = response.data.data.count;
-          } else if (typeof response.data === 'number') {
-            count = response.data;
-          }
-          
-          counts[formId] = count;
+          // Use the stub function instead of making API calls that will fail
+          counts[formId] = await getResponseCount(formId);
         } catch (err) {
           console.log(`Could not fetch response count for form ${formId}:`, err);
           counts[formId] = 0;
@@ -194,7 +195,7 @@ const Dashboard = () => {
   }
 
   // Helper function to get response count for a form
-  const getResponseCount = (form) => {
+  const getFormResponseCount = (form) => {
     const formId = form.id || form._id;
     if (!formId) return 0;
     
@@ -358,10 +359,9 @@ const Dashboard = () => {
                             {form.isPublished ? 'Published' : 'Draft'}
                           </span>
                         </td>
-                        <td>{getResponseCount(form)}</td>
+                        <td>{getFormResponseCount(form)}</td>
                         <td>
                           <div className="d-flex">
-                            {/* Note: Changing only this link to the form builder, keeping everything else the same */}
                             <Link to={`/forms/builder/${form.id || form._id}`} className="btn btn-sm btn-outline-primary me-2">
                               Edit
                             </Link>

@@ -16,15 +16,12 @@ import FormEdit from './pages/FormEdit.jsx';
 import FormView from './pages/FormView.jsx';
 import FormBuilder from './pages/FormBuilder.jsx'
 // import { Navbar } from 'react-bootstrap'
-import { useAuthStore } from './context/authStore.js';
+// Removed the unused import: import { useAuthStore } from './context/AuthStore.js';
 import Navbar from './components/layout/Navbar';
 import MainLayout from './components/layout/MainLayout';
 // import FormResponses from './pages/FormResponses';
 // import FormAnalytics from './pages/FormAnalytics';
 // import FormStore from "./context/FormStore.jsx";
-
-
-
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -45,9 +42,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="forms/builder/new" element={<FormBuilder />} />
             <Route path="forms/builder/edit" element={<FormBuilder />} />
 
-
-
-             <Route path="forms/:formId/edit" element={<FormEdit />} />
+            <Route path="forms/:formId/edit" element={<FormEdit />} />
             <Route path="forms/:formId/view" element={<FormView />} />
             <Route path="forms/:formId/fill" element={<FormFill />} />
           </Route>
