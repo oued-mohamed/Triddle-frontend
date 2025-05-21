@@ -1,1 +1,0 @@
-cosole.log('raja2 hobi')
