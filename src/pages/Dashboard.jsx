@@ -1,23 +1,19 @@
 // src/pages/Dashboard.jsx
 import React, { useEffect, useState, useCallback } from 'react';
 import { Container, Row, Col, Card, Alert, Button as RBButton } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
-import { FaWpforms, FaUsers, FaChartLine, FaPlus, FaSyncAlt } from 'react-icons/fa';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaWpforms, FaUsers, FaChartLine, FaPlus, FaSyncAlt, FaSignOutAlt } from 'react-icons/fa';
 import Button from '../components/common/Button';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { useFormStore } from '../context/FormStore.jsx';
 import api from '../services/api';
 
-// In Dashboard.jsx
-const handleCreateForm = () => {
-  navigate('/forms/builder/new');
-};
-
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { forms, fetchForms, isLoading } = useFormStore();
   const [stats, setStats] = useState({
     totalForms: 0,
@@ -29,6 +25,20 @@ const Dashboard = () => {
   const [refreshKey, setRefreshKey] = useState(0); // Used to force refresh
   const location = useLocation();
   const [formResponses, setFormResponses] = useState({});
+
+  // Function to handle logout
+  const handleLogout = () => {
+    // Add your logout logic here
+    // For example:
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
+  // Function to handle create form
+  const handleCreateForm = () => {
+    navigate('/forms/builder/new');
+  };
 
   // Function to fetch response counts for forms
   const fetchResponseCounts = useCallback(async (formIds) => {
@@ -351,7 +361,8 @@ const Dashboard = () => {
                         <td>{getResponseCount(form)}</td>
                         <td>
                           <div className="d-flex">
-                            <Link to={`/forms/${form.id || form._id}/edit`} className="btn btn-sm btn-outline-primary me-2">
+                            {/* Note: Changing only this link to the form builder, keeping everything else the same */}
+                            <Link to={`/forms/builder/${form.id || form._id}`} className="btn btn-sm btn-outline-primary me-2">
                               Edit
                             </Link>
                             <Link to={`/forms/${form.id || form._id}/fill`} className="btn btn-sm btn-outline-info">

@@ -1,81 +1,51 @@
-// frontend/src/styles/components/_navbar.scss
+/* Add these styles to your index.css or create a new CSS file */
 
+/* Main app container */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Content area with proper spacing */
+.app-content {
+  flex: 1;
+  padding-top: 10px;
+}
+
+/* Make the navbar sticky */
 .navbar {
-  background: white;
-  border-bottom: 1px solid $gray-200;
-  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
   z-index: 1030;
-  
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Active navigation link styling */
+.navbar .nav-link.active {
+  color: #0d6efd !important;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .navbar-brand {
-    font-weight: 700;
-    color: $primary;
-    
-    &:hover {
-      color: darken($primary, 10%);
-    }
+    font-size: 1.2rem;
   }
   
-  .nav-link {
-    color: $gray-700;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    transition: all 0.2s ease;
-    
-    &:hover, &:focus {
-      color: $primary;
-    }
-    
-    &.active {
-      color: $primary;
-    }
+  .navbar .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
   }
-  
-  .dropdown-toggle::after {
-    display: none;
-  }
-  
-  .dropdown-menu {
-    border: none;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    border-radius: 0.5rem;
-    
-    .dropdown-item {
-      padding: 0.5rem 1.5rem;
-      
-      &:hover, &:focus {
-        background-color: rgba($primary, 0.1);
-        color: $primary;
-      }
-      
-      &.active {
-        background-color: $primary;
-        color: white;
-      }
-    }
-  }
-  
-  .user-dropdown-toggle {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background-color: rgba($primary, 0.1);
-    }
-    
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-color: $primary;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-    }
-  }
+}
+
+/* Form page specific spacing */
+.form-builder-container, 
+.forms-list-container {
+  padding-top: 15px;
+}
+
+/* Dashboard specific spacing */
+.dashboard-container {
+  padding-top: 15px;
 }

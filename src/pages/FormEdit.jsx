@@ -134,7 +134,7 @@ const FormEdit = () => {
     navigate(`/forms/${formId}/view`);
   };
 
-  // NEW: Added function to open the form in Form Builder
+  // New function to navigate to form builder
   const handleOpenInBuilder = () => {
     navigate(`/forms/builder/${formId}`);
   };
@@ -175,15 +175,25 @@ const FormEdit = () => {
   return (
     <Container className="py-5">
       <div className="d-flex align-items-center mb-4">
-        <Button 
-          variant="link" 
-          className="px-0 me-3" 
-          onClick={() => navigate('/forms')}
-        >
-          <FaArrowLeft className="me-2" /> Back to Forms
-        </Button>
-        <h2 className="mb-0">Edit Form Properties</h2>
+        <div className="d-flex gap-2">
+          <Button 
+            variant="link" 
+            className="px-0" 
+            onClick={() => navigate('/forms')}
+          >
+            <FaArrowLeft className="me-2" /> Back to Forms
+          </Button>
+          <span className="text-muted mx-2">|</span>
+          <Button 
+            variant="link" 
+            className="px-0 text-primary" 
+            onClick={handleOpenInBuilder}
+          >
+            <FaTools className="me-2" /> Edit in Form Builder
+          </Button>
+        </div>
       </div>
+      <h2 className="mb-4">Edit Form Properties</h2>
 
       <Card className="shadow-sm">
         <Card.Body className="p-4">
@@ -198,6 +208,24 @@ const FormEdit = () => {
               {success}
             </Alert>
           )}
+
+          {/* ADDED: New alert for form builder */}
+          <Alert variant="info" className="mb-4">
+            <div className="d-flex align-items-center">
+              <FaTools className="me-3" size={24} />
+              <div>
+                <h5 className="mb-1">Want to edit form fields?</h5>
+                <p className="mb-2">Use the Form Builder to add, remove, or modify form fields.</p>
+                <Button 
+                  variant="primary" 
+                  size="sm" 
+                  onClick={handleOpenInBuilder}
+                >
+                  <FaTools className="me-2" /> Open in Form Builder
+                </Button>
+              </div>
+            </div>
+          </Alert>
 
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-4">
@@ -241,24 +269,6 @@ const FormEdit = () => {
                   : "Your form is saved as a draft. Publish it to make it available to users."}
               </Form.Text>
             </Form.Group>
-
-            {/* NEW: Added alert for form builder */}
-            <Alert variant="info" className="mb-4">
-              <div className="d-flex align-items-center">
-                <FaTools className="me-3" size={24} />
-                <div>
-                  <h5 className="mb-1">Want to edit form fields?</h5>
-                  <p className="mb-2">Use the Form Builder to add, remove, or modify form fields.</p>
-                  <Button 
-                    variant="primary" 
-                    size="sm" 
-                    onClick={handleOpenInBuilder}
-                  >
-                    <FaTools className="me-2" /> Open in Form Builder
-                  </Button>
-                </div>
-              </div>
-            </Alert>
 
             <hr className="my-4" />
 

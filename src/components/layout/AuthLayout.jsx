@@ -1,10 +1,10 @@
-// src/components/layout/Navbar.jsx
+// src/components/layout/AuthNavbar.jsx
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { FaSignOutAlt } from 'react-icons/fa';
 
-const Navbar = () => {
+const AuthNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -14,8 +14,16 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  // Get user name from localStorage or use default
-  const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).name || 'med' : 'med';
+  // Only show the navbar if the user is logged in
+  const isAuthenticated = localStorage.getItem('token') !== null;
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  // Don't show navbar on login or register pages
+  if (location.pathname === '/login' || location.pathname === '/register') {
+    return null;
+  }
 
   return (
     <div className="border-bottom shadow-sm mb-4">
@@ -53,13 +61,10 @@ const Navbar = () => {
             Forms
           </Link>
           
-          {/* User greeting */}
-          <span className="mx-3">Hello, {userName}</span>
-          
           {/* Logout Button */}
           <button 
             onClick={handleLogout} 
-            className="btn btn-danger ms-2 d-flex align-items-center"
+            className="btn btn-danger ms-4 d-flex align-items-center"
             style={{ height: '38px' }}
           >
             <FaSignOutAlt className="me-2" /> Logout
@@ -70,4 +75,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AuthNavbar;

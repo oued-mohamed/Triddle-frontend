@@ -4,7 +4,7 @@ import api from '../services/api';
 
 // Create context for form management
 const FormContext = createContext();
-//test
+
 /**
  * FormProvider component
  * Provides form-related state and methods to all child components
@@ -53,17 +53,78 @@ export const FormProvider = ({ children }) => {
     setError(null);
     
     try {
+      console.log(`Fetching form with ID: ${formId}`);
+      
+      // Check if there's a draft in localStorage
+      try {
+        const savedDraft = localStorage.getItem(`formDraft_${formId}`);
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          console.log("Using saved draft for form:", draft);
+          // Use draft while we fetch from server
+          setCurrentForm(draft);
+          setQuestions(draft.questions || []);
+        }
+      } catch (err) {
+        console.log("No valid draft found in localStorage");
+      }
+      
       const response = await api.get(`/forms/${formId}`);
+      console.log("Form fetch response:", response);
       
       // Ensure proper data structure handling
-      const form = response.data?.data?.form || response.data || {};
-      setCurrentForm(form);
-      setQuestions(form.questions || []);
-      return form;
+      const form = response.data?.data?.form || response.data?.data || response.data || {};
+      
+      // Standardize the form data structure regardless of what the backend returns
+      const standardizedForm = {
+        ...form,
+        // Ensure questions array exists
+        questions: form.questions || 
+                  (form.fields ? form.fields.map(f => ({
+                    id: f.id || f._id,
+                    title: f.label,
+                    type: f.type,
+                    description: f.helpText,
+                    isRequired: f.required,
+                    order: f.order,
+                    options: f.options || []
+                  })) : []),
+        // Ensure fields array exists
+        fields: form.fields || 
+                (form.questions ? form.questions.map(q => ({
+                  id: q.id || q._id,
+                  type: q.type,
+                  label: q.title || q.label,
+                  helpText: q.description || q.helpText,
+                  required: q.isRequired || q.required,
+                  order: q.order,
+                  options: q.options || []
+                })) : [])
+      };
+      
+      console.log("Standardized form data:", standardizedForm);
+      
+      // Use the draft fields if they exist to maintain UI state
+      try {
+        const savedDraft = localStorage.getItem(`formDraft_${formId}`);
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          if (draft.fields && draft.fields.length > 0) {
+            standardizedForm.fields = draft.fields;
+          }
+        }
+      } catch (err) {
+        console.log("Error applying draft fields:", err);
+      }
+      
+      setCurrentForm(standardizedForm);
+      setQuestions(standardizedForm.questions || []);
+      
+      return standardizedForm;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to fetch form';
       setError(errorMessage);
-      console.error(`Error fetching form with ID ${formId}:`, errorMessage);
+      console.error(`Error fetching form with ID ${formId}:`, error);
       throw new Error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -76,26 +137,70 @@ export const FormProvider = ({ children }) => {
     setError(null);
     
     try {
-      // Ensure isPublished is included in all possible formats
-      const enhancedFormData = {
-        ...formData,
-        published: formData.isPublished, // Try alternative field name
-        status: formData.isPublished ? 'published' : 'draft', // Try status field
-      };
+      // Store the original fields for state persistence
+      const originalFields = formData.fields || [];
       
-      console.log("Creating form with data:", JSON.stringify(enhancedFormData, null, 2));
+      // Make a deep copy to avoid modifying the original object
+      const dataToSubmit = { ...formData };
       
-      const response = await api.post('/forms', enhancedFormData);
-      console.log("Create form response:", response);
+      // Ensure we have questions array
+      if (!dataToSubmit.questions && dataToSubmit.fields) {
+        // Map fields to questions if questions array is missing
+        dataToSubmit.questions = dataToSubmit.fields.map(field => ({
+          id: field.id,
+          title: field.label,
+          type: field.type,
+          description: field.helpText,
+          isRequired: field.required,
+          order: field.order,
+          options: field.options || [],
+        }));
+      }
+      
+      // Add standard fields for different backend implementations
+      dataToSubmit.isPublished = dataToSubmit.isPublished || false;
+      dataToSubmit.published = dataToSubmit.isPublished;
+      dataToSubmit.status = dataToSubmit.isPublished ? 'published' : 'draft';
+      
+      console.log("Creating form with formatted data:", JSON.stringify(dataToSubmit, null, 2));
+      
+      const response = await api.post('/forms', dataToSubmit);
+      console.log("Server response for create:", response);
       
       // Ensure proper data structure handling
       const newForm = response.data?.data?.form || response.data?.data || response.data || {};
       
-      console.log("New form created:", newForm);
-      setForms(prevForms => [newForm, ...prevForms]);
-      setCurrentForm(newForm);
-      setQuestions([]);
-      return newForm;
+      // Make sure the returned form has both fields and questions arrays
+      const standardizedForm = {
+        ...newForm,
+        // Ensure questions array
+        questions: newForm.questions || 
+                  (newForm.fields ? newForm.fields.map(f => ({
+                    id: f.id || f._id,
+                    title: f.label,
+                    type: f.type,
+                    description: f.helpText,
+                    isRequired: f.required,
+                    order: f.order,
+                    options: f.options || []
+                  })) : []),
+        // Ensure fields array - KEEP original fields
+        fields: originalFields
+      };
+      
+      console.log("Standardized new form:", standardizedForm);
+      
+      // Save a draft to localStorage
+      if (standardizedForm.id || standardizedForm._id) {
+        const id = standardizedForm.id || standardizedForm._id;
+        localStorage.setItem(`formDraft_${id}`, JSON.stringify(standardizedForm));
+      }
+      
+      setForms(prevForms => [standardizedForm, ...prevForms]);
+      setCurrentForm(standardizedForm);
+      setQuestions(standardizedForm.questions || []);
+      
+      return standardizedForm;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to create form';
       setError(errorMessage);
@@ -112,25 +217,74 @@ export const FormProvider = ({ children }) => {
     setError(null);
     
     try {
-      // Ensure isPublished is included in all possible formats
-      const enhancedFormData = {
-        ...formData,
-        published: formData.isPublished, // Try alternative field name
-        status: formData.isPublished ? 'published' : 'draft', // Try status field
-      };
+      // Store the original fields for state persistence
+      const originalFields = formData.fields || [];
       
-      console.log("Updating form with data:", JSON.stringify(enhancedFormData, null, 2));
+      // Make a deep copy to avoid modifying the original object
+      const dataToSubmit = { ...formData };
       
-      const response = await api.put(`/forms/${formId}`, enhancedFormData);
+      // Ensure we have questions array
+      if (!dataToSubmit.questions && dataToSubmit.fields) {
+        // Map fields to questions if questions array is missing
+        dataToSubmit.questions = dataToSubmit.fields.map(field => ({
+          id: field.id,
+          title: field.label,
+          type: field.type,
+          description: field.helpText,
+          isRequired: field.required,
+          order: field.order,
+          options: field.options || [],
+        }));
+      }
+      
+      // Add standard fields for different backend implementations
+      if (dataToSubmit.isPublished !== undefined) {
+        dataToSubmit.published = dataToSubmit.isPublished;
+        dataToSubmit.status = dataToSubmit.isPublished ? 'published' : 'draft';
+      }
+      
+      console.log("Updating form with formatted data:", JSON.stringify(dataToSubmit, null, 2));
+      
+      // Save a draft to localStorage before sending to server
+      localStorage.setItem(`formDraft_${formId}`, JSON.stringify({
+        ...dataToSubmit,
+        fields: originalFields
+      }));
+      
+      const response = await api.put(`/forms/${formId}`, dataToSubmit);
+      console.log("Server response for update:", response);
       
       // Ensure proper data structure handling
       const updatedForm = response.data?.data?.form || response.data?.data || response.data || {};
       
+      // Make sure the returned form has both fields and questions arrays
+      const standardizedForm = {
+        ...updatedForm,
+        // Ensure questions array
+        questions: updatedForm.questions || 
+                  (updatedForm.fields ? updatedForm.fields.map(f => ({
+                    id: f.id || f._id,
+                    title: f.label,
+                    type: f.type,
+                    description: f.helpText,
+                    isRequired: f.required,
+                    order: f.order,
+                    options: f.options || []
+                  })) : []),
+        // Ensure fields array - IMPORTANT: Keep the original fields to maintain UI state
+        fields: originalFields
+      };
+      
+      console.log("Standardized updated form:", standardizedForm);
+      
       setForms(prevForms => 
-        prevForms.map(form => (form.id === formId || form._id === formId) ? updatedForm : form)
+        prevForms.map(form => (form.id === formId || form._id === formId) ? standardizedForm : form)
       );
-      setCurrentForm(updatedForm);
-      return updatedForm;
+      
+      setCurrentForm(standardizedForm);
+      setQuestions(standardizedForm.questions || []);
+      
+      return standardizedForm;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to update form';
       setError(errorMessage);
@@ -148,6 +302,9 @@ export const FormProvider = ({ children }) => {
     
     try {
       await api.delete(`/forms/${formId}`);
+      
+      // Remove any localStorage draft
+      localStorage.removeItem(`formDraft_${formId}`);
       
       setForms(prevForms => prevForms.filter(form => form.id !== formId && form._id !== formId));
       if (currentForm?.id === formId || currentForm?._id === formId) {
@@ -214,7 +371,11 @@ export const FormProvider = ({ children }) => {
       
       // Update current form if it's the one being published
       if (currentForm && (currentForm.id === formId || currentForm._id === formId)) {
-        setCurrentForm({ ...currentForm, isPublished: true });
+        const updatedCurrentForm = { ...currentForm, isPublished: true };
+        setCurrentForm(updatedCurrentForm);
+        
+        // Update localStorage draft
+        localStorage.setItem(`formDraft_${formId}`, JSON.stringify(updatedCurrentForm));
       }
       
       // Refresh forms to ensure we have the latest data
@@ -243,6 +404,31 @@ export const FormProvider = ({ children }) => {
       const newQuestion = response.data?.data?.question || response.data || {};
       
       setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
+      
+      // Update draft in localStorage
+      try {
+        const savedDraft = localStorage.getItem(`formDraft_${formId}`);
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          const updatedDraft = {
+            ...draft,
+            questions: [...(draft.questions || []), newQuestion],
+            fields: [...(draft.fields || []), {
+              id: newQuestion.id || newQuestion._id,
+              type: newQuestion.type,
+              label: newQuestion.title || newQuestion.label,
+              helpText: newQuestion.description || newQuestion.helpText,
+              required: newQuestion.isRequired || newQuestion.required,
+              order: newQuestion.order,
+              options: newQuestion.options || []
+            }]
+          };
+          localStorage.setItem(`formDraft_${formId}`, JSON.stringify(updatedDraft));
+        }
+      } catch (err) {
+        console.log("Error updating draft with new question:", err);
+      }
+      
       return newQuestion;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to add question';
@@ -268,6 +454,35 @@ export const FormProvider = ({ children }) => {
       setQuestions(prevQuestions => 
         prevQuestions.map(question => question.id === questionId ? updatedQuestion : question)
       );
+      
+      // Update draft in localStorage
+      try {
+        const savedDraft = localStorage.getItem(`formDraft_${formId}`);
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          const updatedDraft = {
+            ...draft,
+            questions: (draft.questions || []).map(q => 
+              q.id === questionId ? updatedQuestion : q
+            ),
+            fields: (draft.fields || []).map(f => 
+              f.id === questionId ? {
+                id: updatedQuestion.id || updatedQuestion._id,
+                type: updatedQuestion.type,
+                label: updatedQuestion.title || updatedQuestion.label,
+                helpText: updatedQuestion.description || updatedQuestion.helpText,
+                required: updatedQuestion.isRequired || updatedQuestion.required,
+                order: updatedQuestion.order,
+                options: updatedQuestion.options || []
+              } : f
+            )
+          };
+          localStorage.setItem(`formDraft_${formId}`, JSON.stringify(updatedDraft));
+        }
+      } catch (err) {
+        console.log("Error updating draft with updated question:", err);
+      }
+      
       return updatedQuestion;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to update question';
@@ -290,6 +505,23 @@ export const FormProvider = ({ children }) => {
       setQuestions(prevQuestions => 
         prevQuestions.filter(question => question.id !== questionId)
       );
+      
+      // Update draft in localStorage
+      try {
+        const savedDraft = localStorage.getItem(`formDraft_${formId}`);
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          const updatedDraft = {
+            ...draft,
+            questions: (draft.questions || []).filter(q => q.id !== questionId),
+            fields: (draft.fields || []).filter(f => f.id !== questionId)
+          };
+          localStorage.setItem(`formDraft_${formId}`, JSON.stringify(updatedDraft));
+        }
+      } catch (err) {
+        console.log("Error updating draft after question deletion:", err);
+      }
+      
       return true;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to delete question';
@@ -318,6 +550,34 @@ export const FormProvider = ({ children }) => {
       });
       
       setQuestions(reorderedQuestions.sort((a, b) => a.order - b.order));
+      
+      // Update draft in localStorage
+      try {
+        const savedDraft = localStorage.getItem(`formDraft_${formId}`);
+        if (savedDraft) {
+          const draft = JSON.parse(savedDraft);
+          const updatedQuestions = questionOrder.map(item => {
+            const question = draft.questions.find(q => q.id === item.id) || {};
+            return { ...question, order: item.order };
+          }).sort((a, b) => a.order - b.order);
+          
+          const updatedFields = questionOrder.map(item => {
+            const field = draft.fields.find(f => f.id === item.id) || {};
+            return { ...field, order: item.order };
+          }).sort((a, b) => a.order - b.order);
+          
+          const updatedDraft = {
+            ...draft,
+            questions: updatedQuestions,
+            fields: updatedFields
+          };
+          
+          localStorage.setItem(`formDraft_${formId}`, JSON.stringify(updatedDraft));
+        }
+      } catch (err) {
+        console.log("Error updating draft after reordering questions:", err);
+      }
+      
       return true;
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to reorder questions';
@@ -382,7 +642,7 @@ export const FormProvider = ({ children }) => {
       createForm,
       updateForm,
       deleteForm,
-      publishForm, // Add the new publishForm method
+      publishForm,
       addQuestion,
       updateQuestion,
       deleteQuestion,

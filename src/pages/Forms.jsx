@@ -156,12 +156,8 @@ const Forms = () => {
             <FaSyncAlt /> Refresh
           </Button>
         </div>
-        <div className="d-flex gap-2">
-          <Link to="/forms/builder/new">
-            <Button variant="outline-primary" className="d-flex align-items-center">
-              <FaTools className="me-2" /> Advanced Builder
-            </Button>
-          </Link>
+        <div>
+          {/* Removed Advanced Builder button and kept only Create New Form button */}
           <Link to="/forms/builder/new">
             <Button variant="primary" className="d-flex align-items-center">
               <FaPlus className="me-2" /> Create New Form
@@ -241,16 +237,15 @@ const Forms = () => {
                         <FaEllipsisV />
                       </Button>
                       <ul className="dropdown-menu dropdown-menu-end" aria-labelledby={`dropdown-${form.id || form._id || index}`}>
-                        {/* UPDATED: Changed edit form link to point to the form builder */}
+                        {/* Changed edit form link to point to the form builder */}
                         <li>
                           <Link to={`/forms/builder/${form.id || form._id}`} className="dropdown-item">
                             <FaEdit className="me-2" /> Edit Form
                           </Link>
                         </li>
-                        {/* This option is now redundant with the one above, but keeping it to match your original UI */}
                         <li>
-                          <Link to={`/forms/builder/${form.id || form._id}`} className="dropdown-item">
-                            <FaTools className="me-2" /> Open in Advanced Builder
+                          <Link to={`/forms/${form.id || form._id}/edit`} className="dropdown-item">
+                            <FaTools className="me-2" /> Edit Properties
                           </Link>
                         </li>
                         <li>
@@ -308,7 +303,7 @@ const Forms = () => {
                       </Button>
                     )}
                     
-                    {/* UPDATED: Changed Edit button to link to form builder */}
+                    {/* Changed Edit button to link to form builder */}
                     <Button 
                       variant="outline-primary" 
                       size="sm"
@@ -366,12 +361,8 @@ const Forms = () => {
               ? "Try adjusting your search or filters"
               : "Create your first form to get started"}
           </p>
-          <div className="d-flex gap-2 justify-content-center">
-            <Link to="/forms/builder/new">
-              <Button variant="outline-primary">
-                <FaTools className="me-2" /> Advanced Builder
-              </Button>
-            </Link>
+          <div className="d-flex justify-content-center">
+            {/* Removed Advanced Builder button here too */}
             <Link to="/forms/builder/new">
               <Button variant="primary">
                 <FaPlus className="me-2" /> Create New Form

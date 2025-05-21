@@ -105,4 +105,30 @@ api.interceptors.response.use(
   }
 );
 
+/**
+ * Get response count for a form
+ * @param {string} formId - ID of the form
+ * @returns {Promise<number>} - Number of responses
+ */
+api.getFormResponseCount = async (formId) => {
+  try {
+    // Temporarily return 0 to avoid 404 errors until the backend endpoint is implemented
+    // When the backend endpoint is ready, uncomment and update the code below:
+    /*
+    const response = await api.get(`/forms/${formId}/responses`);
+    // Assuming response data structure has a data array of responses
+    return response.data.data.length;
+    */
+    
+    // For now, return 0 to avoid errors
+    if (import.meta.env.DEV) {
+      console.log(`ℹ️ Form response count for ${formId}: Using stub implementation (returning 0)`);
+    }
+    return 0;
+  } catch (error) {
+    console.error('Error getting form response count:', error);
+    return 0;
+  }
+};
+
 export default api;
